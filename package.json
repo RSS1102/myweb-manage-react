@@ -1,0 +1,25 @@
+{
+  "name": "myweb-blogs-react",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@types/node": "^17.0.36",
+    "antd": "^4.20.6",
+    "axios": "^0.27.2",
+    "path": "^0.12.7",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@vitejs/plugin-react": "^1.3.0",
+    "typescript": "^4.6.3",
+    "vite": "^2.9.9"
+  }
+}
