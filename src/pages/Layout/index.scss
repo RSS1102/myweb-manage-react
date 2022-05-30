@@ -1,0 +1,27 @@
+.lay-out {
+    height: 100vh;
+}
+
+
+.user-concent {
+    position: absolute;
+    right: 50px;
+
+    .user-name {
+        font-weight: bold;
+        font-size: 20px;
+        margin: 0 10px;
+    }
+}
+
+.logo {
+    font-size: 25px;
+    margin: 20px 15px;
+    font-family: "fontone";
+    height: 20%;
+    font-weight: bolder;
+    background: linear-gradient(90deg, #2112a8 5%, #f0400b 80%, #d64e24 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

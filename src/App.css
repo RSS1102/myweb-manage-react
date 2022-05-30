@@ -1,2 +1,4 @@
 /* 引入组件库 ant 样式，如果在main引入亦可生效，但是会报Devtools警告 */
-@import "antd/dist/antd.min.css"
+@import "antd/dist/antd.min.css";
+/* 引入文字字体 */
+@import "../src/assets/font/font.css";
