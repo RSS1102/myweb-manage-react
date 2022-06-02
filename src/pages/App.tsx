@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "@/pages/Layout";
 import Login from "@/pages/Login";
-import Article from "@/pages/Article";
+import Article from "@/pages/WriteArticle";
 import Classify from "@/pages/Classify";
 import Home from "@/pages/Home";
 import Manage from "@/pages/Manage";
