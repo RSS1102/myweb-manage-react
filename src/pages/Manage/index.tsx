@@ -1,6 +1,7 @@
 
-import { Space, Table } from "antd";
+import { Space, Switch, Table } from "antd";
 import type { ColumnsType } from 'antd/lib/table';
+import tableData from '@/data/manageData'
 interface columnsType {
     key: string
     id: number,
@@ -38,6 +39,15 @@ function Manage() {
             dataIndex: 'blogUpdate',
         },
         {
+            title: '是否显示',
+            dataIndex: 'action',
+            render: (val, record) => (
+                <Space size="middle">
+                    <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked onChange={(e) => switchChange(e, record)} />
+                </Space>
+            )
+        },
+        {
             title: '操作',
             dataIndex: 'action',
             render: (val, record) => (
@@ -48,18 +58,7 @@ function Manage() {
             )
         },
     ];
-    const dataSource: columnsType[] = [
-        {
-            key: '1',
-            id: 1,
-            blogTitle: '测试标题',
-            blogNav: '测试分类',
-            blogView: 1,
-            blogTime: '测试发布时间',
-            blogUpdate: '测试修改时间',
-        },
 
-    ];
     // 编辑表格
     const editorTable = (value: columnsType) => {
         console.log(value)
@@ -68,9 +67,29 @@ function Manage() {
     const delTable = (value: columnsType) => {
         console.log(value)
     }
+    // 分页
+    let dataSource: Array<columnsType> = tableData
+    const paginationProps = {
+        showSizeChanger: false,
+        showQuickJumper: false,
+        showTotal: () => `共${dataSource.length}条`,
+        pageSize: 10,
+        current: 1,
+        total: dataSource.length,
+        onChange: (current: number) => changePage(current)
+    };
+    const changePage = (current: number) => {
+        paginationProps.current = current
+        dataSource = tableData.slice((current - 1) * 10, current * 10)
+        console.log('changePage', current, dataSource)
+    }
+    // 切换开关
+    const switchChange = (checked: boolean, record: columnsType) => {
+        console.log(checked, record)
+    }
     return (
         <>
-            <Table dataSource={dataSource} columns={columns} />;
+            <Table dataSource={dataSource} columns={columns} pagination={paginationProps} />;
         </>
     )
 }
