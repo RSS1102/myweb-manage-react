@@ -2,6 +2,7 @@
 import { Space, Switch, Table } from "antd";
 import type { ColumnsType } from 'antd/lib/table';
 import tableData from '@/data/manageData'
+import React from "react";
 interface columnsType {
     key: string
     id: number,

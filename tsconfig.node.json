@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "jsx": "react",
     "composite": true,
     "module": "esnext",
     "moduleResolution": "node"
@@ -7,5 +8,5 @@
   "include": [
     "vite.config.ts",
     "src/**/*.ts"
-  ],
+, "src/components/PrimaryVisitsEcharts.tsx"  ],
 }
