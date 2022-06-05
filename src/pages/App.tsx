@@ -5,16 +5,17 @@ import Article from "@/pages/WriteArticle";
 import Classify from "@/pages/Classify";
 import Home from "@/pages/Home";
 import Manage from "@/pages/Manage";
+import React from "react";
 function App() {
     return (
         <BrowserRouter>
             <Routes>
                 <Route path="/Login" element={<Login />}></Route>
                 <Route path="/" element={<Layout />}>
-                        <Route index element={<Home />}></Route>
-                        <Route path="/classify" element={<Classify />}></Route>
-                        <Route path="/article" element={<Article />}></Route>
-                        <Route path="/manage" element={<Manage />}></Route>
+                    <Route index element={<Home />}></Route>
+                    <Route path="/classify" element={<Classify />}></Route>
+                    <Route path="/article" element={<Article />}></Route>
+                    <Route path="/manage" element={<Manage />}></Route>
                 </Route>
             </Routes>
         </BrowserRouter>
