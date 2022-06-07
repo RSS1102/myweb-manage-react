@@ -12,10 +12,10 @@ export default defineConfig({
   server: {
     proxy: {
       // '/api': 'http://localhost:3003'
-      '/api': {
-        target: 'http://localhost:3003/api/',
+      '/cweb': {
+        target: 'http://localhost:3003/cweb/',
         changeOrigin: true,
-        rewrite: path => path.replace(/^\/api/, ''),
+        rewrite: (path) => path.replace(/^\/cweb/, ""),
       },
     },
   }

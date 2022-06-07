@@ -5,8 +5,9 @@
     "module": "esnext",
     "moduleResolution": "node"
   },
+  // 这里如果被include则导致不能使用@/路径
   "include": [
     "vite.config.ts",
-    "src/**/*.ts"
-, "src/components/PrimaryVisitsEcharts.tsx"  ],
+    // "src/**/*.ts",
+  ],
 }

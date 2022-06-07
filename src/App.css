@@ -1,6 +1,5 @@
 /* 引入组件库 ant 样式，如果在main引入亦可生效，但是会报Devtools警告 */
 @import "antd/dist/antd.min.css";
-/* 引入文字字体 */
-@import "../src/assets/fonts/font1/font.css";
 /* 公众样式 */
-@import "../src/assets/css/publicclass.scss"
+@import "./assets/css/publicclass.scss";
+@import "./assets/fonts/logofont/font.css"

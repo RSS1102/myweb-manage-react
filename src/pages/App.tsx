@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, HashRouter } from "react-router-dom";
 import Layout from "@/pages/Layout";
 import Login from "@/pages/Login";
 import Article from "@/pages/WriteArticle";
@@ -8,7 +8,7 @@ import Manage from "@/pages/Manage";
 import React from "react";
 function App() {
     return (
-        <BrowserRouter>
+        <HashRouter>
             <Routes>
                 <Route path="/Login" element={<Login />}></Route>
                 <Route path="/" element={<Layout />}>
@@ -18,7 +18,7 @@ function App() {
                     <Route path="/manage" element={<Manage />}></Route>
                 </Route>
             </Routes>
-        </BrowserRouter>
+        </HashRouter>
     )
 }
 export default App;

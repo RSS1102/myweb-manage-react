@@ -1,12 +1,23 @@
 import { Button, Card, Form, Input, Select } from "antd"
 import { ArrowRightOutlined } from "@ant-design/icons"
-import { Interface } from "readline"
-
+import React, { useState, useEffect } from "react"
+import { getBlogsNav } from "@/utils/http/blogsNav"
+interface addBlogNavType {
+    blogNav: string,
+}
+import { blogNavType } from "@/types/classifyType";
 function Classify() {
+    const [blogsNav, setBlogsNav] = useState<Array<blogNavType>>([])
+    useEffect(() => {
+        async function getBNav() {
+            const theBlogsNav = await getBlogsNav()
+            setBlogsNav(theBlogsNav)
+        }
+        getBNav()
+    }, [])
+    console.log(blogsNav)
     // 添加分类
-    interface addBlogNavType {
-        blogNav: string,
-    }
+
     const addBlogNav = (addValue: addBlogNavType) => {
         console.log(addValue)
     }
@@ -25,11 +36,11 @@ function Classify() {
     const editBlogNav = (editValue: editBlogNavType) => {
         console.log(editValue)
     }
-    const selectValue = [
-        { id: 0, label: "0" },
-        { id: 1, label: "1" },
-        { id: 2, label: "2" },
-    ]
+    // const selectValue = [
+    //     { id: 0, label: "0" },
+    //     { id: 1, label: "1" },
+    //     { id: 2, label: "2" },
+    // ]
     return (
         <div>
             <div style={{ display: 'flex' }}>
@@ -46,8 +57,8 @@ function Classify() {
                 <Card style={{ width: '50%' }}>
                     <Form onFinish={delBlogNav} layout="inline">
                         <Form.Item label="删除分类" name="id" style={{ width: '50%' }}>
-                            <Select >
-                                {selectValue.map(item => <Select.Option key={item.id} value={item.id}>{item.label} </Select.Option>)}
+                            <Select placeholder={"请选择blogsNav"}>
+                                {blogsNav.map(item => <Select.Option key={item.id} value={item.id}>{item.blogNav} </Select.Option>)}
                             </Select>
                         </Form.Item>
                         <Form.Item>
@@ -60,8 +71,8 @@ function Classify() {
                 <Card>
                     <Form layout="inline" onFinish={editBlogNav}>
                         <Form.Item label="修改分类" name="id" style={{ width: '36%' }}>
-                            <Select >
-                                {selectValue.map(item => <Select.Option key={item.id} value={item.id}>{item.label} </Select.Option>)}
+                            <Select placeholder={"请选择blogsNav"} >
+                                {blogsNav.map(item => <Select.Option key={item.id} value={item.id}>{item.blogNav} </Select.Option>)}
                             </Select>
                         </Form.Item>
                         <Form.Item>
