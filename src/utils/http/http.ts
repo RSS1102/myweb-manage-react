@@ -1,6 +1,4 @@
 import axios from "axios";
-
-// import { AxiosRequestConfig } from "axios";
 // 实例化axios
 const http = axios.create({
     baseURL: "/cweb",
