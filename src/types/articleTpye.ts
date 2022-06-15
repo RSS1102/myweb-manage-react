@@ -4,8 +4,11 @@ export interface ArticleFormType {
     blogContent: string,
 }
 export interface blogNavsObj {
-    blogTitle: string;
     blogNav: string;
+    blogTitle: string;
     blogNavId: number;
     blogContent: string;
+    // 在后端增加的字段
+    // visitedNum: number;
+    // articleShow: boolean;
 }

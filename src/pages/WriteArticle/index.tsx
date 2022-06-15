@@ -1,16 +1,14 @@
-/**
- * 标题、分类、文章、(时间)
- */
-
 import React, { useEffect, useState } from 'react';
-import { Card, Form, Input, Button, Select } from 'antd';
+import { Card, Form, Input, Button, Select, message, Modal } from 'antd';
 import MyEditor from '@/components/MyEditor';
 import { getBlogsNav } from '@/utils/http/blogsNav';
+import { saveBlogs } from '@/utils/http/article';
 import { blogNavType } from '@/types/classifyType';
 import { ArticleFormType, blogNavsObj } from '@/types/articleTpye'
 const { Option } = Select
 const WriteArticle: React.FC = () => {
     const [blogNavVal, setBlogNavVal] = useState<Array<blogNavType>>()
+    const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
     // 获取分类
     useEffect(() => {
         const getBNav = async () => {
@@ -26,20 +24,41 @@ const WriteArticle: React.FC = () => {
         form.setFieldsValue({ blogContent: editor })
     }
     // 发布文章
-    const onFinish = (value: ArticleFormType) => {
-        let { blogTitle, blogNavs, blogContent } = value
+    const onPublic = () => {
+        form.validateFields().then(async (values: ArticleFormType) => {
+            setIsModalVisible(true)
+        }).catch(err => { })
+    }
+    const onFinishCancel = () => {
+        setIsModalVisible(false)
+    }
+    const onFinish = () => {
+        console.log("1")
+        let { blogTitle, blogNavs, blogContent } = form.getFieldsValue(true)
         let blogNavsObj: blogNavsObj = {
             blogTitle,
+            blogContent,
             blogNav: blogNavs.label,
             blogNavId: blogNavs.value,
-            blogContent,
+
         }
         console.log(blogNavsObj)
+        saveBlogs(blogNavsObj).then(res => {
+            message.success('发布成功')
+            setIsModalVisible(false)
+        }).catch(err => {
+            console.log(err)
+            message.error('发布失败,请稍后再试')
+            setIsModalVisible(false)
+        })
     }
     return (
         <>
+            <Modal title="是否发布文章" visible={isModalVisible} onOk={onFinish} onCancel={onFinishCancel}>
+                <p>请仔细核对发布的内容。</p>
+            </Modal>
             <Card >
-                <Form initialValues={{ blogContent: null }} onFinish={onFinish} form={form} >
+                <Form initialValues={{ blogContent: null }} form={form} >
                     <Form.Item label="标题" name='blogTitle'
                         rules={[
                             { required: true, message: '请输入标题' },
@@ -48,7 +67,7 @@ const WriteArticle: React.FC = () => {
                         <div style={{ display: 'flex' }}>
                             <Input style={{ width: '100%' }} placeholder="请输入标题" />
                             <Button style={{ marginLeft: '25px' }} size='large' type='primary'
-                                htmlType='submit'>发布</Button>
+                                onClick={onPublic}>发布</Button>
                         </div>
                     </Form.Item>
                     <Form.Item label="分类" name='blogNavs'
@@ -64,7 +83,7 @@ const WriteArticle: React.FC = () => {
                             { max: 20000, message: '文章最多20000个字符' },
                         ]}
                     >
-                        <MyEditor onEdit={onEdit}  ></MyEditor>
+                        <MyEditor onEdit={onEdit}></MyEditor>
                     </Form.Item>
                 </Form>
             </Card>

@@ -1,10 +1,10 @@
 import http from "./http";
-
-export const Article = (data: object) => {
+import { blogNavsObj } from '@/types/articleTpye'
+export const saveBlogs = (data: blogNavsObj) => {
     return http({
         url: "/cBlogs/saveBlogs",
         method: "post",
-        data
+        data,
     })
 
 }
