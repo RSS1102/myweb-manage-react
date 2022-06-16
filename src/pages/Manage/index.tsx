@@ -1,20 +1,17 @@
 
-import { Space, Switch, Table } from "antd";
+import { message, Space, Switch, Table } from "antd";
 import type { ColumnsType } from 'antd/lib/table';
-import tableData from '@/data/manageData'
-import React from "react";
-interface columnsType {
-    key: string
-    id: number,
-    blogTitle: string,
-    blogNav: string,
-    blogView: number,
-    blogTime: string,
-    blogUpdate: string,
-}
+import React, { useEffect } from "react";
+import { blogsListType, blogsListReqType } from "@/types/manage";
+import { getBlogs, changeArticleShow } from '@/utils/http/blogsList';
+import { useState } from 'react'
 
 function Manage() {
-    const columns: ColumnsType<columnsType> = [
+    const [blogsList, setBlogsList] = useState<Array<blogsListType>>([]);
+    const [count, setCount] = useState<number>(0);
+    const pagelimit = 10;
+    const [offset, setOffset] = useState(0);
+    const columns: ColumnsType<blogsListType> = [
         {
             title: 'ID',
             dataIndex: 'id',
@@ -29,28 +26,32 @@ function Manage() {
         },
         {
             title: '浏览人数',
-            dataIndex: 'blogView',
+            dataIndex: 'visitedNum',
         },
         {
             title: '发布时间',
-            dataIndex: 'blogTime',
+            dataIndex: 'createdAt',
         },
         {
             title: '修改时间',
-            dataIndex: 'blogUpdate',
+            dataIndex: 'updatedAt',
         },
         {
             title: '是否显示',
-            dataIndex: 'action',
+            dataIndex: 'articleShow',
             render: (val, record) => (
                 <Space size="middle">
-                    <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked onChange={(e) => switchChange(e, record)} />
+                    <Switch
+                        loading={record.switchLoading ? true : false}
+                        checkedChildren="开启" unCheckedChildren="关闭"
+                        checked={record.articleShow ? true : false}
+                        onChange={(e) => switchChange(e, record)} />
                 </Space>
             )
         },
         {
             title: '操作',
-            dataIndex: 'action',
+            dataIndex: '',
             render: (val, record) => (
                 <Space size="middle">
                     <a onClick={() => { editorTable(record) }}  >编辑</a>
@@ -60,37 +61,75 @@ function Manage() {
         },
     ];
 
-    // 编辑表格
-    const editorTable = (value: columnsType) => {
-        console.log(value)
-    }
-    // 删除表格
-    const delTable = (value: columnsType) => {
-        console.log(value)
-    }
+    // 分页请求
+    useEffect(() => {
+        let reqObj: blogsListReqType = {
+            offset: offset,
+            limit: pagelimit
+        }
+        const getBlogFun = async () => {
+            const { rows, count } = await getBlogs(reqObj);
+            setCount(count);
+            setBlogsList(() => {
+                return rows.map((item: blogsListType) => {
+                    return { ...item, key: item.id.toString() }
+                });
+            });
+        }
+        getBlogFun()
+    }, [offset])
     // 分页
-    let dataSource: Array<columnsType> = tableData
     const paginationProps = {
         showSizeChanger: false,
         showQuickJumper: false,
-        showTotal: () => `共${dataSource.length}条`,
+        showTotal: () => `共${count}条`,
         pageSize: 10,
-        current: 1,
-        total: dataSource.length,
-        onChange: (current: number) => changePage(current)
+        current: offset + 1,
+        total: count,
+        onChange: (current: number) => changeonChangePage(current)
     };
-    const changePage = (current: number) => {
-        paginationProps.current = current
-        dataSource = tableData.slice((current - 1) * 10, current * 10)
-        console.log('changePage', current, dataSource)
+    const changeonChangePage = (current: number) => {
+        setOffset((current - 1) * pagelimit)
     }
     // 切换开关
-    const switchChange = (checked: boolean, record: columnsType) => {
-        console.log(checked, record)
+    const switchChange = (checked: boolean, record: blogsListType) => {
+        // console.log(checked, record)
+        setBlogsList(() => {
+            return blogsList.map((item: blogsListType) => {
+                let params = { ...item, key: item.id.toString(), }
+                return params.id === record.id ? { ...params, articleShow: checked, switchLoading: true } : params
+            });
+        });
+        let params = { id: record.id, articleShow: checked }
+        changeArticleShow(params).then(res => {
+            message.success(checked ? '文章已开启展示' : '文章已关闭展示')
+            setBlogsList(() => {
+                return blogsList.map((item: blogsListType) => {
+                    let params = { ...item, key: item.id.toString(), }
+                    return params.id === record.id ? { ...params, articleShow: checked, switchLoading: false } : params
+                });
+            });
+        }).catch(err => {
+            message.error('修改失败')
+            setBlogsList(() => {
+                return blogsList.map((item: blogsListType) => {
+                    let params = { ...item, key: item.id.toString(), }
+                    return params.id === record.id ? { ...params, articleShow: checked, switchLoading: false } : params
+                });
+            });
+        });
+    }
+    // 编辑表格
+    const editorTable = (value: blogsListType) => {
+        console.log(value)
+    }
+    // 删除表格
+    const delTable = (value: blogsListType) => {
+        console.log(value)
     }
     return (
         <>
-            <Table dataSource={dataSource} columns={columns} pagination={paginationProps} />;
+            <Table dataSource={blogsList} columns={columns} pagination={paginationProps} />;
         </>
     )
 }

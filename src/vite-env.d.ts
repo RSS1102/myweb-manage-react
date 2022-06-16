@@ -12,6 +12,5 @@ declare module 'axios' {
         // headers: AxiosResponseHeaders;
         // config: AxiosRequestConfig<D>;
         // request?: any;
-
-    }
+    };
 }

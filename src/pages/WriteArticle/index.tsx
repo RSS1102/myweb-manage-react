@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, Form, Input, Button, Select, message, Modal } from 'antd';
 import MyEditor from '@/components/MyEditor';
 import { getBlogsNav } from '@/utils/http/blogsNav';
-import { saveBlogs } from '@/utils/http/article';
+import { saveBlogs } from '@/utils/http/blogs';
 import { blogNavType } from '@/types/classifyType';
 import { ArticleFormType, blogNavsObj } from '@/types/articleTpye'
 const { Option } = Select
