@@ -2,6 +2,7 @@ import { Layout, Menu, Popconfirm } from 'antd'
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { HomeOutlined, EditOutlined, FileTextOutlined, FormOutlined, LogoutOutlined } from '@ant-design/icons';
 import "./index.scss"
+import React from 'react';
 const { Header, Sider, Content } = Layout;
 const PageLayout: React.FC = () => {
     // 获取当前路由

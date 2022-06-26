@@ -9,7 +9,7 @@ export const getBlogs = (data: blogsListReqType): AxiosPromise<blogsdataType<blo
         data
     })
 }
-//是否显示文章
+//是否显示文章选项
 export const changeArticleShow = (data: articleShowType): AxiosPromise<blogsListType> => {
     return http({
         url: "/cblogs/changeArticleShow",
