@@ -1,11 +1,11 @@
 import axios from "axios";
 // 实例化axios
+const __ENV__ = import.meta.env
 const http = axios.create({
-    baseURL: "/cweb",
+    baseURL: __ENV__.VITE__URL,
     timeout: 5000,
     // 携带凭证
     withCredentials: false
-
 })
 
 // 添加请求拦截器
